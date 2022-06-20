@@ -1,21 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Button = System.Windows.Controls.Button;
 
 namespace Compare_and_edit
 {
@@ -112,7 +99,8 @@ namespace Compare_and_edit
             updateDatagrid(openFileDlg.SelectedPath);
         }
         //Displays the content of Folder1
-        public void Folder1Clicked(object sender, RoutedEventArgs args) {
+        public void Folder1Clicked(object sender, RoutedEventArgs args)
+        {
             //Datagird clear
             Foldercontent.Items.Clear();
             Foldercontent.Items.Refresh();
@@ -129,20 +117,20 @@ namespace Compare_and_edit
             Foldercontent.Items.Refresh();
             updateDatagrid(txtPath2.Text);
         }
-       
+
         //Fills the Datagrid with the content of the current selected folder
         public void updateDatagrid(string path)
         {
-           
+
             // get the file attributes for file or directory
-                FileAttributes attr = File.GetAttributes(path); //Fehlermeldung System.ArgumentException: "Der Pfad hat ein ungültiges Format." lösen
+            FileAttributes attr = File.GetAttributes(path); //Fehlermeldung System.ArgumentException: "Der Pfad hat ein ungültiges Format." lösen
 
 
             //if no Folder is found return
             if (!attr.HasFlag(FileAttributes.Directory))
                 return;
             //fill Datagrid with content of the selcted folder
-            string [] dirContent = Directory.GetFileSystemEntries(path);
+            string[] dirContent = Directory.GetFileSystemEntries(path);
             foreach (string entry in dirContent)
             {
                 FileAttributes attri = File.GetAttributes(entry);
@@ -159,24 +147,92 @@ namespace Compare_and_edit
                 Foldercontent.Items.Add(new RowType() { Filename = NameOnly, Date = lastModified.ToString("dd/MM/yy HH:mm:ss"), FileSize = SizeOut, Identical = false });
             }
         }
-        //checks if files are the identical 
-        public void IsIdentical(string path1, string path2)
+        
+        public void CompareClicked(object sender, RoutedEventArgs args)
         {
             //Datagrid clear
             Foldercontent.Items.Clear();
             Foldercontent.Items.Refresh();
-            // get the file attributes for file or directory
-            FileAttributes attr1 = File.GetAttributes(path1);
-            FileAttributes attr2 = File.GetAttributes(path2);
-            //if no Folder is found return
-            if (!attr1.HasFlag(FileAttributes.Directory))
-                return;
-            //if no Folder is found return
-            if (!attr2.HasFlag(FileAttributes.Directory))
-                return;
-
-
+            updateCompared(txtPath1.Text, txtPath2.Text);
 
         }
+        //checks if files are the identical
+        public bool IsIdentical(string path1, string path2)
+        {
+
+            string NameOnly = System.IO.Path.GetFileName(path1);
+            string NameOnly2 = System.IO.Path.GetFileName(path2);
+            bool Identical = false;
+
+            if (NameOnly == NameOnly2)
+            {
+                Identical = true;
+            }
+            return Identical;
+
+        }
+
+        //fills the compared files, with the info if the files are identical or not, but without the size info yet
+        public void updateCompared(string path1, string path2)
+        {
+
+            
+            FileAttributes attr1 = File.GetAttributes(path1); 
+            FileAttributes attr2 = File.GetAttributes(path2);
+
+            if (!attr1.HasFlag(FileAttributes.Directory))
+                return;
+            if (!attr2.HasFlag(FileAttributes.Directory))
+                return;
+            string[] dirContent1 = Directory.GetFileSystemEntries(path1);
+            string[] dirContent2 = Directory.GetFileSystemEntries(path2);
+            bool[] duplicate = new bool[dirContent2.Length];
+            foreach (string entry1 in dirContent1)
+            {
+                bool currentDuplicate = false;
+                for (int i = 0; i < dirContent2.Length; i++)
+                {
+                    string entry2 = dirContent2[i];
+                    if (IsIdentical(entry1, entry2))
+                    {
+                        duplicate[i] = true;
+                        currentDuplicate = true;
+                        break;
+                    }
+                }
+                FileAttributes attri = File.GetAttributes(entry1);
+                long length = 0;
+                if (!attr1.HasFlag(FileAttributes.Directory))
+                {
+                    length = new System.IO.FileInfo(entry1).Length;
+                }
+                string SizeOut = SizeSuffix(length);
+                var lastModified = System.IO.File.GetLastWriteTime(entry1);
+                string NameOnly1 = System.IO.Path.GetFileName(entry1);
+
+                if (!currentDuplicate)
+                {
+                    Foldercontent.Items.Add(new RowType() { Filename =NameOnly1, Date = lastModified.ToString("dd/MM/yy HH:mm:ss"), FileSize = SizeOut, Identical = false });
+                }
+            }
+            for (int i = 0; i < dirContent2.Length; i++)
+            {
+                string entry2 = dirContent2[i];
+                FileAttributes attri = File.GetAttributes(entry2);
+                long length = 0;
+                if (!attr1.HasFlag(FileAttributes.Directory))
+                {
+                    length = new System.IO.FileInfo(entry2).Length;
+                }
+                string SizeOut = SizeSuffix(length);
+                var lastModified = System.IO.File.GetLastWriteTime(entry2);
+                string NameOnly2 = System.IO.Path.GetFileName(entry2);
+
+                Foldercontent.Items.Add(new RowType() { Filename = NameOnly2, Date = lastModified.ToString("dd/MM/yy HH:mm:ss"), FileSize = SizeOut, Identical = duplicate[i] });
+            }
+        }
+
     }
-}
+
+    }
+

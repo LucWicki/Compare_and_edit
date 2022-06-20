@@ -8,7 +8,7 @@
         Title="Compare_and_Edit" Height="450" Width="739">
     <Grid>
         <Rectangle HorizontalAlignment="Left" Height="217" Stroke="Black" VerticalAlignment="Top" Width="260"/>
-        <Button Content="Compare" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
+        <Button x:Name="Compare" Click="CompareClicked" Tag="Compare" Content="Compare" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
         <Button x:Name="Folder1" Click="Folder1Clicked" Tag="Folder1" Content="Folder1" HorizontalAlignment="Left" Margin="24,47,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
         <Button x:Name="Folder2" Click="Folder2Clicked" Tag="Folder2" Content="Folder2" HorizontalAlignment="Left" Margin="24,84,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
         <Button  Content="Button" HorizontalAlignment="Left" Margin="24,121,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
@@ -18,7 +18,7 @@
         <Label Content="Folder2" HorizontalAlignment="Left" Margin="287,96,0,0" VerticalAlignment="Top" Width="62" RenderTransformOrigin="0.036,0.909"/>
         <TextBox x:Name="txtPath1" PreviewMouseDown="Folder1Clickedtxt" HorizontalAlignment="Left" Margin="287,63,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="420" Height="25"/>
         <TextBox x:Name="txtPath2" PreviewMouseDown="Folder2Clickedtxt" HorizontalAlignment="Left" Margin="287,127,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="420" Height="25"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="24,237,0,0" VerticalAlignment="Top" Width="170"/>
+        <Label Content="Displayed Content" HorizontalAlignment="Left" Margin="24,237,0,0" VerticalAlignment="Top" Width="170"/>
         <DataGrid x:Name="Foldercontent" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,268,22,31"/>
     </Grid>
 </Window>

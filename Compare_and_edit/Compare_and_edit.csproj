@@ -66,6 +66,7 @@
     <Compile Include="Compare and Edit.xaml.cs">
       <DependentUpon>Compare and Edit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileCompare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
