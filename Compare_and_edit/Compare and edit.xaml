@@ -8,11 +8,9 @@
         Title="Compare_and_Edit" Height="450" Width="739">
     <Grid>
         <Rectangle HorizontalAlignment="Left" Height="217" Stroke="Black" VerticalAlignment="Top" Width="260"/>
-        <Button x:Name="Compare" Click="CompareClicked" Tag="Compare" Content="Compare" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
-        <Button x:Name="Folder1" Click="Folder1Clicked" Tag="Folder1" Content="Folder1" HorizontalAlignment="Left" Margin="24,47,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
-        <Button x:Name="Folder2" Click="Folder2Clicked" Tag="Folder2" Content="Folder2" HorizontalAlignment="Left" Margin="24,84,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
-        <Button  Content="Button" HorizontalAlignment="Left" Margin="24,121,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="24,158,0,0" VerticalAlignment="Top" Height="32" Width="170"/>
+        <Button x:Name="Compare" Click="CompareClicked" Tag="Compare" Content="Compare" HorizontalAlignment="Left" Margin="24,26,0,0" VerticalAlignment="Top" Height="46" Width="223"/>
+        <Button x:Name="Folder1" Click="Folder1Clicked" Tag="Folder1" Content="Folder1" HorizontalAlignment="Left" Margin="24,88,0,0" VerticalAlignment="Top" Height="47" Width="223"/>
+        <Button x:Name="Folder2" Click="Folder2Clicked" Tag="Folder2" Content="Folder2" HorizontalAlignment="Left" Margin="24,149,0,0" VerticalAlignment="Top" Height="52" Width="223"/>
         <Rectangle HorizontalAlignment="Left" Height="217" Stroke="Black" VerticalAlignment="Top" Width="479" Margin="260,0,0,0"/>
         <Label Content="Folder1" HorizontalAlignment="Left" Margin="287,26,0,0" VerticalAlignment="Top" Width="62"/>
         <Label Content="Folder2" HorizontalAlignment="Left" Margin="287,96,0,0" VerticalAlignment="Top" Width="62" RenderTransformOrigin="0.036,0.909"/>
