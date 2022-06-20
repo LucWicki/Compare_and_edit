@@ -37,6 +37,7 @@ namespace Compare_and_edit
             InitializeComponent();
             InitializeDatagrid();
         }
+        //Creates the right columns in the Datagrid 
         private void InitializeDatagrid()
         {
             DataGridTextColumn textColumn1 = new DataGridTextColumn();
@@ -85,47 +86,62 @@ namespace Compare_and_edit
                 adjustedSize,
                 SizeSuffixes[mag]);
         }
+        //Opens the the Explorer, so the user can choose the folder for folder1
         public void Folder1Clickedtxt(object sender, RoutedEventArgs args)
         {
+            //Datagird clear
+            Foldercontent.Items.Clear();
+            Foldercontent.Items.Refresh();
+            //Opens explorer 
             System.Windows.Forms.FolderBrowserDialog openFileDlg = new System.Windows.Forms.FolderBrowserDialog();
             openFileDlg.ShowDialog();
+            //Fills the Textbox with path and gives the path to the updateDatagrid function
             txtPath1.Text = openFileDlg.SelectedPath;
-            string pathcheck = txtPath1.Text;
             updateDatagrid(openFileDlg.SelectedPath);
 
         }
+        //Opens the the Explorer, so the user can choose the folder for folder2
         public void Folder2Clickedtxt(object sender, RoutedEventArgs args)
         {
+            //Datagird clear
+            Foldercontent.Items.Clear();
+            Foldercontent.Items.Refresh();
             System.Windows.Forms.FolderBrowserDialog openFileDlg = new System.Windows.Forms.FolderBrowserDialog();
             openFileDlg.ShowDialog();
             txtPath2.Text = openFileDlg.SelectedPath;
             updateDatagrid(openFileDlg.SelectedPath);
         }
+        //Displays the content of Folder1
         public void Folder1Clicked(object sender, RoutedEventArgs args) {
+            //Datagird clear
+            Foldercontent.Items.Clear();
+            Foldercontent.Items.Refresh();
+
             updateDatagrid(txtPath1.Text);
 
 
         }
+        //Displays the content of Folder2
         public void Folder2Clicked(object sender, RoutedEventArgs args)
         {
+            //Datagird clear
+            Foldercontent.Items.Clear();
+            Foldercontent.Items.Refresh();
             updateDatagrid(txtPath2.Text);
         }
        
-
+        //Fills the Datagrid with the content of the current selected folder
         public void updateDatagrid(string path)
         {
-
-            //Datagird clearen
-            Foldercontent.Items.Clear();
-            Foldercontent.Items.Refresh();
+           
             // get the file attributes for file or directory
                 FileAttributes attr = File.GetAttributes(path); //Fehlermeldung System.ArgumentException: "Der Pfad hat ein ungültiges Format." lösen
 
 
-            //wenn es kein Ordner ist geh zurück/ brich ab
+            //if no Folder is found return
             if (!attr.HasFlag(FileAttributes.Directory))
                 return;
-            //Datagrid befüllen
+            //fill Datagrid with content of the selcted folder
             string [] dirContent = Directory.GetFileSystemEntries(path);
             foreach (string entry in dirContent)
             {
@@ -143,6 +159,24 @@ namespace Compare_and_edit
                 Foldercontent.Items.Add(new RowType() { Filename = NameOnly, Date = lastModified.ToString("dd/MM/yy HH:mm:ss"), FileSize = SizeOut, Identical = false });
             }
         }
+        //checks if files are the identical 
+        public void IsIdentical(string path1, string path2)
+        {
+            //Datagrid clear
+            Foldercontent.Items.Clear();
+            Foldercontent.Items.Refresh();
+            // get the file attributes for file or directory
+            FileAttributes attr1 = File.GetAttributes(path1);
+            FileAttributes attr2 = File.GetAttributes(path2);
+            //if no Folder is found return
+            if (!attr1.HasFlag(FileAttributes.Directory))
+                return;
+            //if no Folder is found return
+            if (!attr2.HasFlag(FileAttributes.Directory))
+                return;
 
+
+
+        }
     }
 }
